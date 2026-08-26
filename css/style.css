@@ -1,0 +1,1184 @@
+@charset "UTF-8";
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css");
+
+:root {
+
+	--primary-color: #147c6a;
+	--primary-inverse-color: #fff;
+
+}
+
+@keyframes animation1 {
+	0% {left: -200px;}
+	100% {left: 0px;}
+}
+
+@keyframes opa1 {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+body * {box-sizing: border-box;}
+html,body {
+	font-size: 12px;
+}
+
+	@media (min-width:600px) {
+
+	html, body {
+		font-size: 15px;
+	}
+
+	}
+
+body {
+	margin: 0;padding:0;
+	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	-webkit-text-size-adjust: none;
+	background: #f4f4f4;
+	color: #333;
+	line-height: 2;
+	overflow-x: hidden;
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+}
+
+body::before {
+	content: "";
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: -1;
+	background: linear-gradient(160deg, #eef6f4 0%, #dcece7 45%, #cfe4de 100%);
+}
+
+	@media (min-width:600px) {
+
+	body {
+		padding-bottom: 0;
+	}
+
+	}
+
+figure {margin: 0;}
+dd {margin: 0;}
+nav,ul,li,ol {margin: 0;padding: 0;}
+nav ul {list-style: none;}
+
+table {border-collapse:collapse;}
+
+img {border: none;max-width: 100%;height: auto;vertical-align: middle;}
+
+video {max-width: 100%;}
+
+iframe {width: 100%;}
+
+input {font-size: 1rem;}
+section > ol,section > ul {margin-left: 2rem;}
+
+section:not(:first-child) {
+	margin-top: 3rem;
+}
+
+a {
+	color: inherit;
+}
+
+/* グルメページの店名リンク（Googleマップへ） */
+.map-link {
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.map-link::after {
+    content: " 📍";
+    font-size: 0.8em;
+}
+
+#container {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 0 2rem;
+	background: #fff;
+	display: grid;
+	grid-template-rows: auto auto 1fr;
+	min-height: 100vh;
+	min-height: 100dvh;
+	overflow-x: hidden;
+	box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
+	position: relative;
+}
+
+header {
+    padding: 2rem 20vw;
+    text-align: center;
+	position: relative;
+}
+
+	@media (min-width:600px) {
+
+	header {
+		padding: 2rem 0;
+	}
+
+	}
+
+header h1 {
+	background: var(--primary-color);
+	color: var(--primary-inverse-color);
+	font-size: 1.2rem;
+	width: fit-content;
+	margin: 0 auto;
+	padding: 0 2rem;
+	border-radius: 100px;
+}
+
+
+#mainimg {
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+main {
+	min-width: 0;
+	margin-bottom: 2rem;
+}
+
+#header-nav nav {
+	background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #ddd;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+	@media (min-width:600px) {
+
+	#header-nav nav {
+		position: static;
+		border-bottom: 1px solid #ddd;
+	}
+
+	}
+
+#header-nav nav ul {
+    list-style: none;
+    display: flex;
+	justify-content: space-between;
+    height: 60px;
+    font-size: 10px;
+}
+
+	@media (min-width:600px) {
+
+	#header-nav nav ul {
+		height: 100px;
+		font-size: 1rem;
+	}
+
+	}
+
+#header-nav li {
+    flex: 1;
+}
+#header-nav li a {
+	text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#header-nav li .icon {
+    font-size: 20px;
+    display: block;
+}
+
+@media (orientation: landscape) {
+    #header-nav nav ul {
+        height: 50px;
+    }
+    #header-nav li .icon {
+		font-size: 16px;
+    }
+    #header-nav li a {
+        flex-direction: row;
+        gap: 5px;
+    }
+}
+
+.list-scroll {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+
+    scroll-snap-type: x mandatory;
+
+    -webkit-overflow-scrolling: touch;
+
+    padding: 0 15px;
+    gap: 15px;
+
+    scrollbar-width: none;
+}
+
+.list-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.list-scroll .list {
+    flex: 0 0 28%;
+    scroll-snap-align: start;
+}
+
+.list-scroll .list a {
+    text-decoration: none;
+    display: block;
+}
+
+.list-scroll .list figure {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	background: #fff;
+	border-radius: 8px;
+	border: 1px solid #ddd;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+.list-scroll .list figure img {
+    width: 100%;
+    height: 100%;
+	object-fit: contain;
+	object-position: center;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.list-scroll .list p {
+    font-size: 0.9rem;
+    text-align: center;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.list-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 0 15px;
+}
+
+.list-grid .list {
+    flex: 0 0 calc(50% - 8px);
+    max-width: calc(50% - 8px);
+}
+
+.list-grid .list a {
+    text-decoration: none;
+    display: block;
+}
+
+.list-grid .list figure {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	background: #fff;
+	border-radius: 8px;
+	border: 1px solid #ddd;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+	position: relative;
+}
+.list-grid .list figure .day-num {
+	position: absolute;
+	top: -6px;
+	left: -6px;
+	width: 32px;
+	height: 32px;
+	background: var(--primary-color);
+	color: #fff;
+	font-weight: bold;
+	font-size: 1rem;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+	border: 2px solid #fff;
+	z-index: 1;
+}
+.list-grid .list figure img {
+    width: 100%;
+    height: 100%;
+	object-fit: contain;
+	object-position: center;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.list-grid .list p {
+    font-size: 0.9rem;
+    text-align: center;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.list-normal {
+    list-style: none;
+    padding: 0;
+}
+
+.list-normal .list {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+.list-normal .list a {
+    display: flex;
+    text-decoration: none;
+    gap: 15px;
+}
+
+.list-normal .list figure {
+	width: 100px;
+}
+.list-normal .list figure img {
+    border-radius: 8px;
+    display: block;
+}
+
+.list-normal .text {
+	flex: 1;
+}
+
+.list-normal .text h4 {
+	margin: 0;
+	line-height: 1.2;
+    font-size: 1.1rem;
+	margin-bottom: 5px;
+}
+
+.list-normal .text p {
+	margin: 0;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+	margin-bottom: 5px;
+}
+
+.list-normal .icon {
+    font-size: 0.75rem;
+    color: #fff;
+    background: #666;
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 聖地巡礼スポット用アイコン（後日マップ詳細ページへのリンクにする予定） */
+.list-normal .icon-seichi {
+    background: linear-gradient(135deg, #a855f7, #6366f1);
+}
+
+.section-divider {
+    text-align: center;
+    color: #a855f7;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 4px 0 14px;
+    letter-spacing: 0.05em;
+}
+
+.list-normal .no-result {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+}
+
+.walica-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, #ff9a56, #ff6b6b);
+    color: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 0 0 1.5rem;
+    box-shadow: 0 4px 14px rgba(255,107,107,0.35);
+    text-decoration: none;
+}
+.walica-card:active {
+    opacity: 0.85;
+}
+.walica-card .walica-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.walica-card .walica-body {
+    flex: 1;
+}
+.walica-card .walica-label {
+    font-size: 0.7rem;
+    opacity: 0.9;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+.walica-card .walica-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    line-height: 1.3;
+}
+.walica-card .walica-desc {
+    font-size: 0.78rem;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+.walica-card .walica-arrow {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+/* マンホール聖地カード（walicaカードよりは控えめな目立たせ方） */
+.manhole-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #4f9d8f, #2e7d6e);
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 0 0 1.2rem;
+    box-shadow: 0 3px 10px rgba(46,125,110,0.3);
+    text-decoration: none;
+}
+.manhole-card:active {
+    opacity: 0.85;
+}
+.manhole-card .manhole-icon {
+    font-size: 1.7rem;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+}
+.manhole-card .manhole-body {
+    flex: 1;
+}
+.manhole-card .manhole-label {
+    font-size: 0.65rem;
+    opacity: 0.9;
+    letter-spacing: 0.05em;
+    margin-bottom: 1px;
+}
+.manhole-card .manhole-title {
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.3;
+}
+.manhole-card .manhole-desc {
+    font-size: 0.72rem;
+    opacity: 0.9;
+    margin-top: 1px;
+}
+/* 0日目「各自行動」案内カード */
+.manhole-card .manhole-arrow {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+.freeday-card {
+    text-align: center;
+    padding: 2.5rem 1.5rem 3rem;
+}
+.freeday-card .freeday-icon {
+    font-size: 3.2rem;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+}
+.freeday-card .freeday-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.freeday-card .freeday-sub {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 2.2rem;
+}
+.freeday-points {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 420px;
+    margin: 0 auto;
+}
+.freeday-point {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+    background: #f7f5ff;
+    border: 1px solid #e6e1ff;
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+}
+.freeday-point .freeday-point-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+.freeday-point .freeday-point-title {
+    font-size: 1.05rem;
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+}
+.freeday-point .freeday-point-desc {
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.link-list {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+}
+.link-list li {
+    border-bottom: 1px solid #eee;
+}
+.link-list li:first-child {
+    border-top: 1px solid #eee;
+}
+.link-list a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 4px;
+    text-decoration: none;
+    color: #333;
+}
+.link-list a:active {
+    background: #f7f7f7;
+}
+.link-list .link-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    width: 1.6em;
+    text-align: center;
+}
+.link-list .link-title {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+.link-list .link-arrow {
+    color: #bbb;
+    font-size: 0.9rem;
+}
+
+.day-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 0.5rem;
+}
+.day-nav p {
+    margin: 0;
+}
+.day-nav p.l {
+    margin-right: auto;
+}
+.day-nav p.r {
+    margin-left: auto;
+}
+
+.departure-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #2f6f6b, #1f5450);
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin: 0 0 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+.departure-badge .departure-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+}
+.departure-badge .departure-label {
+    font-size: 0.75rem;
+    opacity: 0.85;
+    letter-spacing: 0.05em;
+}
+.departure-badge .departure-time {
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+footer {
+	text-align: center;
+}
+
+.pr a {
+	text-decoration: none;display: block;
+	background: #555;
+	color: #ccc;
+	text-align: right;
+	padding: 1rem;
+	font-size: 0.8rem;
+	margin: 10px -2rem 0 -2rem;
+}
+.pr a::before {
+	font-family: "Font Awesome 6 Free";
+	content: "\e2ca";
+	font-weight: bold;
+	margin-right: 0.5em;
+}
+
+.btn-back {
+	text-align: center;
+}
+.btn-back a {
+	text-decoration: none;display: inline-block;
+	padding: 0.5rem 2rem;
+	border-radius: 30px;
+	border: 1px solid #999;
+}
+
+.btn-back a::before {
+	font-family: "Font Awesome 6 Free";
+	content: "\f0d9";
+	padding-right: 0.8em;
+	font-weight: bold;
+	opacity: 0.5;
+}
+
+
+.thumbnail .thumb-wrap {
+	position: relative;
+	display: inline-block;
+	width: 80px;
+	margin: 2px;
+}
+.thumbnail .thumb-wrap > video {
+	width: 100%;
+	height: auto;
+	display: block;
+	margin: 0;
+}
+.thumbnail .thumb-play {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	pointer-events: none;
+	opacity: 0.9;
+	text-shadow: 0 1px 2px rgba(0,0,0,.35);
+}
+
+.thumbnail .thumb-play i {
+	background: #ff0000;
+	color: #fff;
+	border-radius: 9999px;
+	padding: 6px 8px;
+	font-size: 12px;
+	line-height: 1;
+}
+
+
+
+
+
+.member-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin: 0.5rem 0 2rem;
+}
+.member-item {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: #fff;
+}
+.member-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: 0 0 auto;
+    background: #eef6f1;
+    border: 2px solid var(--primary-color);
+}
+.member-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.member-info {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.member-name {
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 0 0 0.35rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.member-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+.member-icons .icon-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    color: #666;
+    background: #f5f5f5;
+    border-radius: 20px;
+    padding: 0.15rem 0.6rem;
+}
+.member-icons .icon-badge .emoji {
+    font-size: 0.95rem;
+}
+.member-item.cancelled {
+    opacity: 0.55;
+    filter: grayscale(70%);
+}
+.member-item.cancelled .member-photo {
+    position: relative;
+}
+.member-item.cancelled .member-photo::after {
+    content: "✕";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #c62828;
+    background: rgba(255, 255, 255, 0.55);
+}
+.member-icons .icon-badge.cancelled-badge {
+    background: #fdecea;
+    color: #c62828;
+    font-weight: bold;
+}
+
+/* 免許あり/なし タップ編集バッジ（Firebase Realtime Databaseと同期） */
+.icon-badge.license-badge {
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: transform 0.1s ease;
+}
+.icon-badge.license-badge:active {
+    transform: scale(0.95);
+}
+.icon-badge.license-badge.status-unknown {
+    background: #eee;
+    color: #888;
+}
+.icon-badge.license-badge.status-aru {
+    background: #dcf5e0;
+    color: #1f7a34;
+    border-color: #b6e6bd;
+    font-weight: bold;
+}
+.icon-badge.license-badge.status-nashi {
+    background: #ffe4d8;
+    color: #b8492f;
+    border-color: #ffc9b3;
+    font-weight: bold;
+}
+.icon-badge.license-badge .license-loading {
+    opacity: 0.5;
+}
+.grade-heading {
+    margin: 1.6rem 0 0.6rem;
+    padding-left: 0.6rem;
+    border-left: 6px solid var(--primary-color);
+    font-size: 1.05rem;
+}
+.grade-heading:first-of-type {
+    margin-top: 0.5rem;
+}
+
+.small-screen #menubar {
+	animation: animation1 0.2s both;
+	position: fixed;overflow: auto;z-index: 100;
+	right: 0px;top: 0px;
+	width: 100%;
+	height: 100%;
+	padding: 80px 10vw 50px;
+	background: var(--primary-color);
+	color: var(--primary-inverse-color);
+}
+
+.small-screen #menubar {display: none;}
+
+.small-screen #menubar a {
+	display: block;text-decoration: none;
+	color: inherit;
+	border: 1px solid #fff;
+	margin-bottom: 1rem;
+	padding: 1rem 2rem;
+}
+
+.small-screen #menubar .icon {
+	display: inline-block;
+	transform: scale(1.5);
+	padding-right: 1rem;
+}
+
+#menubar_hdr {
+	display: none;
+	animation: opa1 0s 0.2s both;
+	position: fixed;
+	z-index: 101;
+	cursor: pointer;
+	right: 0px;
+	top: 0px;
+	width: 70px;
+	height: 70px;
+	background: #000;
+	border-radius: 0px 0px 0px 20px;
+	transform-origin: right top;
+	transform: scale(1);
+}
+
+#menubar_hdr.ham {
+	background: #ff0000;
+}
+
+#menubar_hdr span {
+	display: block;
+	position: absolute;
+	left: 18px;
+	width: 35px;
+	height: 2px;
+	background: #fff;
+	transition: 0.3s;
+}
+
+#menubar_hdr span:nth-of-type(1) {
+	top: 24px;
+}
+#menubar_hdr span:nth-of-type(2) {
+	top: 34px;
+}
+#menubar_hdr span:nth-of-type(3) {
+	top: 44px;
+}
+
+#menubar_hdr.ham span:nth-of-type(1) {
+	transform: translateY(10px) rotate(-45deg);
+}
+#menubar_hdr.ham span:nth-of-type(2) {
+	opacity: 0;
+}
+#menubar_hdr.ham span:nth-of-type(3) {
+	transform: translateY(-10px) rotate(45deg);
+}
+
+.small-screen #menubar_hdr {
+	display: flex;
+}
+
+.new dt {
+	font-size: 0.85rem;
+	font-weight: bold;
+	color: #888;
+	margin-top: 0.8rem;
+}
+.new dt:first-of-type {
+	margin-top: 0;
+}
+
+.new dd {
+	padding-bottom: 0.3rem;
+}
+
+.note-text {
+	background: #f4f4f4;
+	padding: 1rem;
+	border-radius: 8px;
+	font-size: 0.9rem;
+	line-height: 1.8;
+	color: #555;
+	margin: 1rem 0;
+}
+
+.new dt span {
+	display: inline-block;
+	text-align: center;
+	line-height: 1.8;
+	border-radius: 3px;
+	padding: 0 1rem;
+	width: 6rem;
+	transform: scale(0.8);
+	background: #eee;
+	color:#777;
+}
+
+.new .icon-bg1 {
+	background: var(--primary-color);
+	color: var(--primary-inverse-color);
+}
+
+.new .icon-bg2 {
+	background: #ff0000;
+	color: #fff;
+}
+
+	@media screen and (min-width:700px) {
+
+	.new {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		column-gap: 1.5rem;
+		row-gap: 0.3rem;
+		align-items: baseline;
+	}
+
+	.new dt {
+		margin-top: 0;
+	}
+
+	}
+
+.pagetop-show {display: block;}
+
+.pagetop a {
+	display: block;text-decoration: none;text-align: center;z-index: 99;
+	animation: opa1 1s 0.4s both;
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	color: #fff;
+	font-size: 1.5rem;
+	background: rgba(0,0,0,0.2);
+	width: 60px;
+	line-height: 60px;
+	border-radius: 50%;
+}
+
+.l {text-align: left !important;}
+.c {text-align: center !important;}
+.r {text-align: right !important;}
+
+/* 遠征選択ページ（select.html）用スタイル */
+.select-hero {
+	position: relative;
+	overflow: hidden;
+	padding: 2.4rem 1rem 0.6rem;
+	text-align: center;
+}
+.select-hero h2 {
+	position: relative;
+	z-index: 1;
+	font-size: 1.4rem;
+	background: linear-gradient(90deg, #ff6b9d, #6a5cff, #4fc3e0);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	font-weight: bold;
+	margin: 0;
+}
+.select-hero .sparkle {
+	position: absolute;
+	font-size: 1.4rem;
+	opacity: 0.8;
+	animation: sparkle-float 3s ease-in-out infinite;
+}
+@keyframes sparkle-float {
+	0%, 100% { transform: translateY(0) rotate(0deg); }
+	50% { transform: translateY(-8px) rotate(15deg); }
+}
+
+.trip-select {
+	display: flex;
+	gap: 1.4rem;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin: 1.8rem 0;
+	padding: 0 1rem;
+}
+.trip-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-decoration: none;
+	width: 150px;
+	padding: 1.4rem 1rem 1.2rem;
+	border: none;
+	border-radius: 22px;
+	background: #fff;
+	box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	overflow: hidden;
+}
+.trip-card::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	opacity: 0.12;
+	z-index: 0;
+}
+.trip-card--kyushu::before {
+	background: linear-gradient(135deg, #ff8fb3, #ffb56b);
+}
+.trip-card--hokuriku::before {
+	background: linear-gradient(135deg, #6ec6ff, #7a7bff);
+}
+.trip-card:hover,
+.trip-card:focus {
+	transform: translateY(-6px) rotate(-1deg) scale(1.03);
+	box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+}
+.trip-card img {
+	position: relative;
+	z-index: 1;
+	width: 104px;
+	height: 104px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-bottom: 0.7rem;
+	border: 3px solid #fff;
+	box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+.trip-card-label {
+	position: relative;
+	z-index: 1;
+	font-weight: bold;
+	font-size: 1.05rem;
+}
+.trip-card--kyushu .trip-card-label { color: #ff6f91; }
+.trip-card--hokuriku .trip-card-label { color: #5c6bff; }
+
+.trip-card-sub {
+	position: relative;
+	z-index: 1;
+	font-size: 0.68rem;
+	color: #888;
+	margin-top: 2px;
+}
+
+/* メンバーページ：組分けトグル */
+.group-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0.8rem 0 0.6rem;
+}
+.group-toggle-btn {
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.group-toggle-btn.active {
+    background: var(--primary-color);
+    color: var(--primary-inverse-color);
+}
+.group-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+.group-legend .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+}
+.group-color-1 { background: #e08a3c; }
+.group-color-2 { background: #3c7ce0; }
+.group-color-3 { background: #8a3ce0; }
+.group-color-tbd { background: #aaa; }
+
+.group-heading-1 { border-left-color: #e08a3c; }
+.group-heading-2 { border-left-color: #3c7ce0; }
+.group-heading-3 { border-left-color: #8a3ce0; }
+.group-heading-tbd { border-left-color: #aaa; }
+
+/* メンバーページ：ひとことコメント欄 */
+.member-comment {
+    margin-top: 0.5rem;
+}
+.comment-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 0.8rem;
+    color: #333;
+    background: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 0.35rem 0.8rem;
+}
+.comment-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: #fff;
+}
+.comment-input::placeholder {
+    color: #aaa;
+}
+
+/* ハンバーガーメニュー内：北陸遠征のしおりへの切り替え項目 */
+.menubar-divider {
+	border-top: 2px solid rgba(255,255,255,0.4) !important;
+	margin-top: 0.5rem;
+	padding-top: 1rem !important;
+}
+.trip-switch-icon {
+	display: inline-block;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	vertical-align: middle;
+	margin-right: 1rem;
+}
