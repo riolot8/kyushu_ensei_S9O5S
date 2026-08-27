@@ -1207,6 +1207,57 @@ body.edit-mode-active .comment-input {
     color: var(--primary-inverse-color);
 }
 
+/* メンバーページ：集合状況マップ（GPS現在地共有） */
+.section-divider {
+	border: none;
+	border-top: 1px dashed #ccc;
+	margin: 2.5rem 0 1.5rem;
+}
+.location-controls {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 0.6rem;
+	margin: 0 0 0.8rem;
+}
+.location-controls select {
+	font-family: inherit;
+	font-size: 0.85rem;
+	padding: 0.45rem 0.8rem;
+	border: 1px solid #ccc;
+	border-radius: 999px;
+	background: #fff;
+	color: #555;
+}
+.location-status-msg {
+	text-align: center;
+	min-height: 1.4em;
+	color: var(--primary-color);
+}
+#location-map {
+	width: 100%;
+	height: 320px;
+	border-radius: 12px;
+	margin: 0 0 1rem;
+	z-index: 0;
+}
+.location-legend {
+	list-style: none;
+	max-width: 480px;
+	margin: 0 auto;
+	padding: 0;
+	font-size: 0.85rem;
+	color: #555;
+}
+.location-legend li {
+	padding: 0.4rem 0.8rem;
+	border-bottom: 1px dotted #ddd;
+}
+.location-legend li:last-child {
+	border-bottom: none;
+}
+
 /* ハンバーガーメニュー内：北陸遠征のしおりへの切り替え項目 */
 .menubar-divider {
 	border-top: 2px solid rgba(255,255,255,0.4) !important;
