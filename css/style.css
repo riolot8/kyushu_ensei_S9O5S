@@ -796,12 +796,17 @@ footer {
 
 /* 免許あり/なし タップ編集バッジ（Firebase Realtime Databaseと同期） */
 .icon-badge.license-badge {
-    cursor: pointer;
+    cursor: default;
     user-select: none;
     border: 1px solid transparent;
-    transition: transform 0.1s ease;
+    transition: transform 0.1s ease, opacity 0.15s ease;
 }
-.icon-badge.license-badge:active {
+/* 編集モード中のみタップ可能。誤タップ防止のため通常時は少し控えめな見た目に */
+body.edit-mode-active .icon-badge.license-badge {
+    cursor: pointer;
+    box-shadow: 0 0 0 2px rgba(20, 124, 106, 0.25);
+}
+body.edit-mode-active .icon-badge.license-badge:active {
     transform: scale(0.95);
 }
 .icon-badge.license-badge.status-unknown {
@@ -1166,6 +1171,40 @@ footer {
 }
 .comment-input::placeholder {
     color: #aaa;
+}
+.comment-input[readonly] {
+    cursor: default;
+    color: #888;
+}
+body.edit-mode-active .comment-input {
+    background: #fff;
+    border-color: var(--primary-color);
+    color: #333;
+    cursor: text;
+}
+
+/* メンバーページ：アイコン・コメント編集モードの切り替えボタン */
+.edit-mode-toggle {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1rem;
+}
+.edit-mode-btn {
+    font-family: inherit;
+    font-size: 0.8rem;
+    padding: 0.45rem 1.1rem;
+    border: 1px dashed #999;
+    border-radius: 999px;
+    background: #fff;
+    color: #777;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.edit-mode-btn.active {
+    border-style: solid;
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: var(--primary-inverse-color);
 }
 
 /* ハンバーガーメニュー内：北陸遠征のしおりへの切り替え項目 */
