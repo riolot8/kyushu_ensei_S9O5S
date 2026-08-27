@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="九州遠征に参加するメンバー一覧です（仮）">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 </head>
 
 <body>
@@ -249,6 +250,31 @@
 </div><!-- /#grade-view -->
 
 <div id="group-view" style="display:none;"></div>
+
+<hr class="section-divider">
+
+<h2 class="c">🗺️ 集合状況マップ</h2>
+
+<p class="note-text">
+自分の名前を選んで「現在地を共有する」を押すと、GPSの現在地が地図上に表示されます。位置情報の利用許可を求められたら「許可」を選んでください。他の人が共有した位置も自動で更新されます。
+</p>
+
+<div class="location-controls">
+<select id="my-member-select">
+<option value="">自分の名前を選択...</option>
+</select>
+<button type="button" id="share-location-btn" class="edit-mode-btn">📍 現在地を共有する</button>
+<button type="button" id="refresh-location-btn" class="edit-mode-btn">🔄 最新の状況を更新</button>
+</div>
+
+<p id="location-status-msg" class="note-text location-status-msg"></p>
+
+<div id="location-map"></div>
+
+<ul id="location-legend" class="location-legend"></ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
 
 <!--
 学年が増える場合は <h3 class="grade-heading">◯◯生</h3> と <div class="member-list"> を追加してください。
@@ -540,6 +566,157 @@ Firebase Realtime Databaseに自動保存されるので、新しいメンバー
             e.target.blur();
         }
     });
+
+    // ---- 集合状況マップ（GPS現在地の共有） ----
+    var KYUSHU_FALLBACK_CENTER = [33.5904, 130.4017]; // 博多駅を仮の中心地に設定
+    var MY_ID_KEY = "kyushu_my_member_name";
+
+    var memberSelect = document.getElementById("my-member-select");
+    var shareBtn = document.getElementById("share-location-btn");
+    var refreshBtn = document.getElementById("refresh-location-btn");
+    var statusMsg = document.getElementById("location-status-msg");
+    var legendEl = document.getElementById("location-legend");
+
+    // メンバー一覧（不参加者は除く）をgrade-viewから収集してプルダウンに反映
+    var memberNameList = [];
+    document.querySelectorAll("#grade-view .member-item").forEach(function (item) {
+        if (item.classList.contains("cancelled")) return;
+        var nameEl = item.querySelector(".member-name");
+        if (!nameEl) return;
+        var name = nameEl.textContent.trim();
+        if (!name || memberNameList.indexOf(name) !== -1) return;
+        memberNameList.push(name);
+        var opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        memberSelect.appendChild(opt);
+    });
+
+    // 前回選んだ自分の名前を復元
+    var savedMyName = localStorage.getItem(MY_ID_KEY);
+    if (savedMyName && memberNameList.indexOf(savedMyName) !== -1) {
+        memberSelect.value = savedMyName;
+    }
+    memberSelect.addEventListener("change", function () {
+        localStorage.setItem(MY_ID_KEY, memberSelect.value);
+    });
+
+    var locMap = null;
+    var locMarkers = {};
+
+    function initLocMapIfNeeded() {
+        if (locMap) return;
+        locMap = L.map("location-map").setView(KYUSHU_FALLBACK_CENTER, 10);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "&copy; OpenStreetMap contributors"
+        }).addTo(locMap);
+    }
+
+    function formatElapsed(ts) {
+        var diffMs = Date.now() - ts;
+        var diffMin = Math.floor(diffMs / 60000);
+        if (diffMin < 1) return "たった今";
+        if (diffMin < 60) return diffMin + "分前";
+        var diffHour = Math.floor(diffMin / 60);
+        if (diffHour < 24) return diffHour + "時間前";
+        return Math.floor(diffHour / 24) + "日前";
+    }
+
+    function renderLocations(data) {
+        initLocMapIfNeeded();
+        legendEl.innerHTML = "";
+
+        if (!data) {
+            var li = document.createElement("li");
+            li.textContent = "まだ誰も現在地を共有していません。";
+            legendEl.appendChild(li);
+            return;
+        }
+
+        Object.keys(locMarkers).forEach(function (name) {
+            locMap.removeLayer(locMarkers[name]);
+            delete locMarkers[name];
+        });
+
+        var bounds = [];
+        Object.keys(data).forEach(function (name) {
+            var entry = data[name];
+            if (!entry || typeof entry.lat !== "number" || typeof entry.lng !== "number") return;
+            var isStale = (Date.now() - entry.ts) > (2 * 60 * 60 * 1000); // 2時間以上前は「古い」扱い
+
+            var marker = L.marker([entry.lat, entry.lng], {
+                opacity: isStale ? 0.5 : 1
+            }).addTo(locMap);
+            marker.bindPopup(
+                "<strong>" + name + "</strong><br>" + formatElapsed(entry.ts) + "に共有"
+            );
+            locMarkers[name] = marker;
+            bounds.push([entry.lat, entry.lng]);
+
+            var li = document.createElement("li");
+            li.textContent = name + "：" + formatElapsed(entry.ts) + (isStale ? "（情報が古い可能性）" : "");
+            legendEl.appendChild(li);
+        });
+
+        if (bounds.length > 0) {
+            locMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
+        }
+    }
+
+    function fetchLocations() {
+        fetch(DB_URL + "/location.json")
+            .then(function (res) { return res.ok ? res.json() : null; })
+            .then(renderLocations)
+            .catch(function (err) {
+                console.error("現在地データの読み込みに失敗:", err);
+                initLocMapIfNeeded();
+            });
+    }
+
+    shareBtn.addEventListener("click", function () {
+        var myName = memberSelect.value;
+        if (!myName) {
+            statusMsg.textContent = "先に自分の名前を選択してください。";
+            return;
+        }
+        if (!navigator.geolocation) {
+            statusMsg.textContent = "この端末では位置情報がサポートされていません。";
+            return;
+        }
+        statusMsg.textContent = "現在地を取得中...";
+        navigator.geolocation.getCurrentPosition(
+            function (pos) {
+                var payload = {
+                    lat: pos.coords.latitude,
+                    lng: pos.coords.longitude,
+                    ts: Date.now()
+                };
+                fetch(DB_URL + "/location/" + encodeURIComponent(myName) + ".json", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }).then(function () {
+                    statusMsg.textContent = "現在地を共有しました！";
+                    fetchLocations();
+                }).catch(function (err) {
+                    console.error("現在地データの保存に失敗:", err);
+                    statusMsg.textContent = "共有に失敗しました。通信環境を確認してください。";
+                });
+            },
+            function (err) {
+                console.error("位置情報の取得に失敗:", err);
+                statusMsg.textContent = "位置情報を取得できませんでした。ブラウザの位置情報の許可設定を確認してください。";
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+    });
+
+    refreshBtn.addEventListener("click", fetchLocations);
+
+    fetchLocations();
+    // 30秒ごとに自動更新（他の人が共有した最新の位置を反映）
+    setInterval(fetchLocations, 30000);
 })();
 </script>
 
