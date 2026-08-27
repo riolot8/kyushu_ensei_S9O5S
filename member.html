@@ -50,6 +50,11 @@
 </div>
 <div class="group-legend" id="group-legend"></div>
 
+<!-- 誤タップ防止：このボタンを押すまで免許バッジ・コメント欄は編集できない -->
+<div class="edit-mode-toggle">
+<button type="button" id="edit-mode-btn" class="edit-mode-btn">✏️ アイコン・メッセージを編集する</button>
+</div>
+
 <div id="grade-view">
 
 <h3 class="grade-heading">23生</h3>
@@ -388,6 +393,31 @@ Firebase Realtime Databaseに自動保存されるので、新しいメンバー
     // Firebase Realtime Database（免許あり/なしを全員で共有するための保存先）
     var DB_URL = "https://kyushu-ensei-default-rtdb.asia-southeast1.firebasedatabase.app";
 
+    // ---- 編集モード切り替え（誤タップ防止） ----
+    // 「編集する」ボタンを押すまでは免許バッジのタップもコメント欄の入力も無効。
+    var editMode = false;
+    var editModeBtn = document.getElementById("edit-mode-btn");
+
+    function applyEditModeState() {
+        document.querySelectorAll(".comment-input").forEach(function (input) {
+            input.readOnly = !editMode;
+        });
+        document.body.classList.toggle("edit-mode-active", editMode);
+    }
+    // 組分け表示（group-view）はJSで動的に複製されるため、
+    // applyDay()実行後にも呼び出せるようグローバルに公開しておく
+    window.applyEditModeState = applyEditModeState;
+
+    if (editModeBtn) {
+        editModeBtn.addEventListener("click", function () {
+            editMode = !editMode;
+            editModeBtn.textContent = editMode ? "✅ 編集を終わる" : "✏️ アイコン・メッセージを編集する";
+            editModeBtn.classList.toggle("active", editMode);
+            applyEditModeState();
+        });
+    }
+    applyEditModeState(); // 初期状態は非編集モード
+
     // タップするたびに 未回答 → 免許あり → 免許なし → 未回答 … と切り替わる
     var STATUS_ORDER = ["unknown", "aru", "nashi"];
     var STATUS_LABEL = { unknown: "未回答", aru: "免許あり", nashi: "免許なし" };
@@ -424,6 +454,7 @@ Firebase Realtime Databaseに自動保存されるので、新しいメンバー
     document.addEventListener("click", function (e) {
         var badge = e.target.closest(".license-badge");
         if (!badge) return;
+        if (!editMode) return; // 編集モードでない時はタップしても何も起きない
         var item = badge.closest(".member-item");
         var nameEl = item ? item.querySelector(".member-name") : null;
         if (!nameEl) return;
