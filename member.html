@@ -297,7 +297,7 @@
 </div>
 </div>
 
-免許バッジ（license-badge）はタップするたびに「未回答→免許あり→免許なし」と切り替わり、
+免許バッジ（license-badge）はタップするたびに「未回答→免許あり→免許証不携帯→免許なし」と切り替わり、
 Firebase Realtime Databaseに自動保存されるので、新しいメンバーを追加する際は
 上記の <span class="icon-badge license-badge status-unknown" data-status="unknown">...</span> と
 <div class="member-comment"><input type="text" class="comment-input" placeholder="ひとこと" maxlength="60" value=""></div> を
@@ -444,13 +444,13 @@ Firebase Realtime Databaseに自動保存されるので、新しいメンバー
     }
     applyEditModeState(); // 初期状態は非編集モード
 
-    // タップするたびに 未回答 → 免許あり → 免許なし → 未回答 … と切り替わる
-    var STATUS_ORDER = ["unknown", "aru", "nashi"];
-    var STATUS_LABEL = { unknown: "未回答", aru: "免許あり", nashi: "免許なし" };
+    // タップするたびに 未回答 → 免許あり → 免許証不携帯 → 免許なし → 未回答 … と切り替わる
+    var STATUS_ORDER = ["unknown", "aru", "wasure", "nashi"];
+    var STATUS_LABEL = { unknown: "未回答", aru: "免許あり", wasure: "免許証不携帯✋(◉⌓◉’)", nashi: "免許なし" };
 
     function setBadgeStatus(badge, status) {
         var s = STATUS_LABEL[status] ? status : "unknown";
-        badge.classList.remove("status-unknown", "status-aru", "status-nashi");
+        badge.classList.remove("status-unknown", "status-aru", "status-wasure", "status-nashi");
         badge.classList.add("status-" + s);
         badge.dataset.status = s;
         var textEl = badge.querySelector(".license-text");
