@@ -391,13 +391,31 @@ main {
     background: linear-gradient(135deg, #a855f7, #6366f1);
 }
 
-.section-divider {
+p.section-divider {
+    display: flex;
+    align-items: center;
     text-align: center;
     color: #a855f7;
     font-size: 0.85rem;
     font-weight: bold;
-    margin: 4px 0 14px;
+    margin: 18px 0;
     letter-spacing: 0.05em;
+}
+p.section-divider::before,
+p.section-divider::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid #ddd;
+}
+p.section-divider::before {
+    margin-right: 12px;
+}
+p.section-divider::after {
+    margin-left: 12px;
+}
+.list-normal .list:has(+ p.section-divider) {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .list-normal .no-result {
@@ -1208,7 +1226,7 @@ body.edit-mode-active .comment-input {
 }
 
 /* メンバーページ：集合状況マップ（GPS現在地共有） */
-.section-divider {
+hr.section-divider {
 	border: none;
 	border-top: 1px dashed #ccc;
 	margin: 2.5rem 0 1.5rem;
