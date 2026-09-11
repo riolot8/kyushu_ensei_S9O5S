@@ -837,6 +837,12 @@ body.edit-mode-active .icon-badge.license-badge:active {
     border-color: #b6e6bd;
     font-weight: bold;
 }
+.icon-badge.license-badge.status-wasure {
+    background: #fff4cc;
+    color: #8a6a00;
+    border-color: #ffe08a;
+    font-weight: bold;
+}
 .icon-badge.license-badge.status-nashi {
     background: #ffe4d8;
     color: #b8492f;
@@ -1229,6 +1235,11 @@ body.edit-mode-active .comment-input {
 hr.section-divider {
 	border: none;
 	border-top: 1px dashed #ccc;
+	margin: 2.5rem 0 1.5rem;
+}
+hr.divider-line {
+	border: none;
+	border-top: 1px solid #ddd;
 	margin: 2.5rem 0 1.5rem;
 }
 .location-controls {
